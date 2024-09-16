@@ -59,11 +59,11 @@
                 <div>
                     <v-col cols="12">
                         <v-card class="widget-format1">
-                          <v-skeleton-loader
+                          <!-- <v-skeleton-loader
                             v-if="!isDataLoaded & !isFirstSearchComplete"
                             type="card, list-item, avatar"
                             height="200"
-                          />
+                          /> -->
                           <canvas id="stockChart" width="400" height="200" v-if="showWidgets"></canvas>
                         </v-card>
                     </v-col>
