@@ -215,7 +215,7 @@ import Cookies from 'js-cookie';
     },
     methods: {
       getFinancials() {
-        axios.get(`http://127.0.0.1:8000/trends/financialmetrics/${this.searchQuery}`)  
+        axios.get(`https://market-trends-backend-top.onrender.com/trends/financialmetrics/${this.searchQuery}`)  
           .then(response => {
             console.log('financialmetrics', response.data)
             this.financialMetrics = {
@@ -238,7 +238,7 @@ import Cookies from 'js-cookie';
       this.showFullDescription = !this.showFullDescription;
     },
       getDescription() {
-        axios.get(`http://127.0.0.1:8000/trends/companydescription/${this.searchQuery}`)  
+        axios.get(`https://market-trends-backend-top.onrender.com/trends/companydescription/${this.searchQuery}`)  
           .then(response => {
             console.log('company_description', response.data)
             this.description = response.data;
@@ -264,7 +264,7 @@ import Cookies from 'js-cookie';
         this.getFinancials();
         axios({
           method: 'POST',
-          url: 'http://127.0.0.1:8000/trends/stocknews/',
+          url: 'https://market-trends-backend-top.onrender.com/trends/stocknews/',
           data: formData,
           headers: {
             'X-CSRFToken': csrfToken,
@@ -286,7 +286,7 @@ import Cookies from 'js-cookie';
         })
       },
       getGraph() {
-        axios.get(`http://127.0.0.1:8000/trends/averageprices/${this.searchQuery}`) 
+        axios.get(`https://market-trends-backend-top.onrender.com/trends/averageprices/${this.searchQuery}`) 
           .then(response => {
             console.log('sunt in getGraph');
             console.log(response.data);
