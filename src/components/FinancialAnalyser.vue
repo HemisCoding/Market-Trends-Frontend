@@ -1,6 +1,10 @@
 <template>
+  
     <v-app>
       <v-container fluid class="container">
+
+
+
         <div v-if="showAnimation">
           <div class="square"></div>
           <div class="square"></div>
@@ -59,11 +63,6 @@
                 <div>
                     <v-col cols="12">
                         <v-card class="widget-format1">
-                          <!-- <v-skeleton-loader
-                            v-if="!isDataLoaded & !isFirstSearchComplete"
-                            type="card, list-item, avatar"
-                            height="200"
-                          /> -->
                           <canvas id="stockChart" width="400" height="200" v-if="showWidgets"></canvas>
                         </v-card>
                     </v-col>
@@ -99,7 +98,28 @@
                           </v-progress-linear>
                           </div>
                     </v-row>
+                    <v-row>
+                      <div class="snackbar-container">
+                        <v-btn
+                          style="z-index: 1000; padding: 10px; height: auto; width: auto;"
+                          color="transparent"
+                          @click="snackbar = true"
+                          class="white--text"
+                        >Backend Alert
+                          <v-icon color="red" size="24">mdi-alert</v-icon>
+                        </v-btn>
 
+                        <v-snackbar v-model="snackbar" multi-line>
+                          <strong>Backend Unavailable:</strong> Sorry, the backend server is currently unavailable due to a lack of memory.
+                          Please use the <a :href="githubLink" target="_blank">GitHub link</a> and try the project by yourself.
+                          <template v-slot:actions>
+                            <v-btn color="red" @click="snackbar = false">
+                              Close
+                            </v-btn>
+                          </template>
+                        </v-snackbar>
+                      </div>
+                    </v-row>
                 </div>
                 </v-col>
             </v-row>
@@ -164,6 +184,14 @@
       </v-container>
     </v-app>
   </template>
+
+<script setup>
+import { ref } from 'vue'
+
+const snackbar = ref(false)
+
+// const text = `I am a multi-line snackbar.\nI can have more than one line. This is another line that is quite long.`
+</script>
   
   <script>
 import Chart from 'chart.js/auto';
@@ -176,6 +204,10 @@ import Cookies from 'js-cookie';
 
     data() {
       return {
+        snackbar: false,
+        text: `I am a multi-line snackbar.\nI can have more than one line. This is another line that is quite long.`,
+        serverUnavailable: true, 
+        githubLink: "https://github.com/HemisCoding/Market-Trends-Backend",
         searchQuery: '',
         sentiment_score: null,
         showWidgets: false,
@@ -214,6 +246,12 @@ import Cookies from 'js-cookie';
         };
     },
     methods: {
+      openSnackbar() {
+      this.snackbar.show = true; // Open the Snackbar when button is clicked
+    },
+    closeSnackbar() {
+      this.snackbar.show = false; // Close the Snackbar
+    },
       getFinancials() {
         axios.get(`https://market-trends-backend-top.onrender.com/trends/financialmetrics/${this.searchQuery}`)  
           .then(response => {
@@ -402,6 +440,14 @@ import Cookies from 'js-cookie';
   
   <style scoped>
 
+.snackbar-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999; /* Make sure it's on top of other elements */
+}
+
 a {
   color: #42b983;
   cursor: pointer;
@@ -431,6 +477,7 @@ a:hover {
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 9999;
 }
+
 
 .loader-circle {
   border: 5px solid #f3f3f3;

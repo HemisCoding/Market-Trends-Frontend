@@ -1,5 +1,30 @@
 <template>
   <v-container fluid class="container">
+    <div class="text-center">
+    <v-btn
+      color="red-darken-2"
+      @click="snackbar = true"
+    >
+      Open Snackbar
+    </v-btn>
+
+    <v-snackbar
+      v-model="snackbar"
+      multi-line
+    >
+      {{ text }}
+
+      <template v-slot:actions>
+        <v-btn
+          color="red"
+          variant="text"
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+  </div>
     <v-row justify="center">
       <v-col cols="12">
         <div ref="threeContainer" class="three-container"></div>
@@ -8,15 +33,35 @@
   </v-container>
 </template>
 
+<script setup>
+import { ref } from 'vue'
+
+const snackbar = ref(false)
+
+const text = `I am a multi-line snackbar.\nI can have more than one line. This is another line that is quite long.`
+</script>
+
 <script>
 import * as THREE from 'three';
 
 export default {
+  data() {
+    return {
+      snackbar: false,
+      text: `I am a multi-line snackbar.\nI can have more than one line. This is another line that is quite long.`,
+    }
+  },
   name: 'ThreeDRoadmap',
   mounted() {
     this.initThreeJS();
   },
   methods: {
+    openSnackbar() {
+      this.snackbar.show = true; // Open the Snackbar when button is clicked
+    },
+    closeSnackbar() {
+      this.snackbar.show = false; // Close the Snackbar
+    },
     initThreeJS() {
       // Basic Scene Setup
       const scene = new THREE.Scene();
